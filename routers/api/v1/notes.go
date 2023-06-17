@@ -156,7 +156,7 @@ func UploadNote(c *gin.Context) {
 		newNote.NoteID = ntID
 		newNote.Title = c.PostForm("title")
 		newNote.Body = c.PostForm("body")
-		newNote.Tags = c.PostFormArray("tags")
+		// newNote.Tags = c.PostFormArray("tags")
 		newNote.Picnum = len(files)
 		newNote.Location = c.PostForm("location")
 		newNote.AtList = c.PostFormArray("atList")
