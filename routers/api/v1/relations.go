@@ -144,6 +144,122 @@ func CancleCollect(c *gin.Context) {
 
 // 获取关注用户
 func GetFollowUser(c *gin.Context) {
-	// var success bool
+	var success bool
+	var follows []models.FollowInfo
+	userId, _ := strconv.Atoi(c.Param("userId"))
+	follows, success = models.GetFollows(userId)
+	if success {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    200,
+			"message": "success",
+			"data":    follows,
+		})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":    400,
+			"message": "fail",
+		})
+	}
+}
 
+// 关注用户
+func FollowHandler(c *gin.Context) {
+	var success bool
+	userId, _ := strconv.Atoi(c.Param("userId"))
+	var account models.FollowRequest
+	//用shouldBind获取前端传来的json数据，只要json名相同就能读取
+	if err := c.ShouldBind(&account); err == nil {
+		id := account.FollowID
+		//向数据库中插入关注信息
+		success = models.AddFollowInfo(userId, id)
+		if success {
+			//将用户关注数加一
+			models.ChangeUserFollows(userId, 1)
+			//将被关注用户粉丝数加一
+			models.ChangeUserFans(userId, 1)
+			c.JSON(http.StatusOK, gin.H{
+				"code":    200,
+				"message": "关注成功！",
+			})
+		}
+	} else {
+		//json数据获取失败
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":  400,
+			"error": err.Error(),
+		})
+	}
+}
+
+// 取消关注
+func CancelFollowHandler(c *gin.Context) {
+	var success bool
+	userId, _ := strconv.Atoi(c.Param("userId"))
+	var account models.FollowRequest
+	//用shouldBind获取前端传来的json数据，只要json名相同就能读取
+	if err := c.ShouldBind(&account); err == nil {
+		id := account.FollowID
+		//向数据库中删除关注信息
+		success = models.DelFollowInfo(userId, id)
+		if success {
+			//将用户关注数加一
+			models.ChangeUserFollows(userId, -1)
+			//将被关注用户粉丝数加一
+			models.ChangeUserFans(userId, -1)
+			c.JSON(http.StatusOK, gin.H{
+				"code":    200,
+				"message": "取关成功！",
+			})
+		}
+	} else {
+		//json数据获取失败
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":  400,
+			"error": err.Error(),
+		})
+	}
+}
+
+// 消息列表加载点赞信息
+func MsgGetLikes(c *gin.Context) {
+	//是否全部已读，false表示没有
+	totalState := true
+	userId, _ := strconv.Atoi(c.Param("userId"))
+	likes, State, success := models.GetLikeInfos(userId)
+	if State == 0 {
+		totalState = false
+	}
+	if success {
+		c.JSON(http.StatusOK, gin.H{
+			"code":       200,
+			"message":    "success",
+			"totalState": totalState,
+			"data":       likes,
+		})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":       400,
+			"message":    "fail",
+			"totalState": totalState,
+			"data":       likes,
+		})
+	}
+}
+
+// 把点赞信息设为已读
+func ChangeLikeState(c *gin.Context) {
+	var success bool
+	commentId, _ := strconv.Atoi(c.Param("fvId"))
+	success = models.SetLikeState(commentId)
+	if success {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    200,
+			"message": "success",
+		})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":    400,
+			"message": "点赞状态修改失败",
+		})
+	}
 }
