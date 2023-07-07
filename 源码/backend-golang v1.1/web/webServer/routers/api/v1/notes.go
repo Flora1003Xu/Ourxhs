@@ -285,16 +285,6 @@ func Getfile(userid, noteid int) ([]string, error) {
 	return files, nil
 }
 
-// // 获取关注的人的笔记
-// func GetFollowersNotesHandler(ctx gin.Context) {
-// 	// 解析用户id
-// 	userid, _ := strconv.Atoi(ctx.Param("userId"))
-// 	// 获取该用户的关注人列表
-// 	var follows []int = models.GetFollowers(userid)
-// 	// 根据(批量)用户id查找笔记
-
-// }
-
 // 获取走马灯的4个笔记
 func GetTops(c *gin.Context) {
 	notes, success := models.Tops()

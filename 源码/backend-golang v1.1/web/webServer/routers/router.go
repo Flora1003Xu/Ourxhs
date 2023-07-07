@@ -12,10 +12,10 @@ func InitRouter() *gin.Engine {
 	// 新建一个没有任何默认中间件的路由
 	r := gin.New()
 
-	//使用Use()方法向路由器添加一些中间件功能
-	//第一个中间件函数是gin.Logger()，它记录对控制台或文件的HTTP请求和响应。它帮助开发人员调试和监控应用程序的行为
+	//使用Use()方法向路由添加一些中间件功能
+	//记录对控制台或文件的HTTP请求和响应。它帮助开发人员调试和监控应用程序的行为
 	r.Use(gin.Logger())
-	//第二个中间件函数是gin.Recovery()，它可以从请求处理过程中发生的任何死机中恢复。它确保服务器不会因意外错误而崩溃，并返回错误响应
+	//从请求处理过程中发生的任何死机中恢复。它确保服务器不会因意外错误而崩溃，并返回错误响应
 	r.Use(gin.Recovery())
 	// 使用CorsMiddleware()中间件来进行跨域连接
 	r.Use(cors.CorsMiddleware())
@@ -35,6 +35,7 @@ func InitRouter() *gin.Engine {
 	//获取笔记详细内容
 	r.GET("/:userId/explore/:noteid", v1.NoteDetailHandler)
 
+	//登录
 	r.POST("/login", v1.Login)
 
 	// 使用token中间件
@@ -80,8 +81,6 @@ func InitRouter() *gin.Engine {
 		r.POST("/:userId/PersonalView/follow", v1.FollowHandler)
 		// 取关用户
 		r.DELETE("/:userId/PersonalView/follow", v1.CancelFollowHandler)
-		// 获取关注的人的笔记
-		// r.GET("/:userId/follow", v1.GetFollowersNotesHandler)
 
 		//获取评论消息列表
 		r.GET("/messages/:userId/comments", v1.MsgGetComments)
@@ -95,10 +94,5 @@ func InitRouter() *gin.Engine {
 		//修改密码
 		r.PUT("/:userId/PersonalView/password", v1.ChangePassword)
 	}
-
 	return r
 }
-
-// func AuthMiddleware() {
-// 	panic("unimplemented")
-// }

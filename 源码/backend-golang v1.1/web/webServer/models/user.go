@@ -184,23 +184,6 @@ func ChangeNoteNum(userId, option int) {
 	// return
 }
 
-// 登录验证（简易版）
-func CheckUser(phoneNumber, password string) bool {
-	//用户的登录信息
-	var buser LoginInfo
-	sqlstr := "select userAccount from userInfo where phoneNumber=? and password=?"
-	err := db.QueryRow(sqlstr, phoneNumber, password).Scan(&buser.UserID)
-	if err != nil {
-		fmt.Printf("query failed, err:%v\n", err)
-		return false
-	}
-	if buser.UserID > 0 {
-		// fmt.Print(buser.UserID)
-		return true
-	}
-	return false
-}
-
 // 修改用户获赞数
 func ChangeUserLikes(noteId, option int) {
 	var sqlstr string
