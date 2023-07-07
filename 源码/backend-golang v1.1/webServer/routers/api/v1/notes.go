@@ -24,7 +24,6 @@ type Note models.Note
 func GetAllNotes(c *gin.Context) {
 	var data Data
 	var ok bool
-	//判断是否登录，还要再加判断的函数
 	data.IsLogin = false
 	data.Notes, ok = models.GetBriefNtInfo()
 	// gin.H 是map[string]interface{}的缩写
@@ -47,7 +46,6 @@ func GetAllNotes(c *gin.Context) {
 func GetSpecificNotes(c *gin.Context) {
 	var data Data
 	var OK bool
-	//判断是否登录，还要再加判断的函数
 	data.IsLogin = false
 	keyword := c.Param("keyword")
 	data.Notes, OK = models.GetSpBriefNtInfo(keyword)
@@ -100,7 +98,6 @@ func NoteDetailHandler(c *gin.Context) {
 func GetFollowedNotes(c *gin.Context) {
 	var data Data
 	var OK bool
-	//判断是否登录，还要再加判断的函数
 	data.IsLogin = false
 	userId, _ := strconv.Atoi(c.Param("userId"))
 	data.Notes, OK = models.GetFlwedNotes(userId)
@@ -180,6 +177,8 @@ func UploadNote(c *gin.Context) {
 				//将路径等信息更新到数据库
 				success := models.NewPicInfo(pc)
 				if !success {
+					models.DeleteNoteInfo(userId)
+					models.DeletePic(ntID)
 					c.JSON(http.StatusBadRequest, gin.H{
 						"code":    400,
 						"message": "图片上传失败！",
