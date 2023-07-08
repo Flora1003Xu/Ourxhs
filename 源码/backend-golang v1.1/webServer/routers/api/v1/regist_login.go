@@ -173,12 +173,3 @@ func Login(c *gin.Context) {
 		"message": "登录成功",
 	})
 }
-
-// // 从上下文中获取用户信息
-// func Info(ctx *gin.Context) {
-// 	user, _ := ctx.Get("user")
-// 	ctx.JSON(http.StatusOK, gin.H{
-// 		"code": 200,
-// 		"data": gin.H{"user": dto.ToUserDto(user.(model.User))},
-// 	})
-// }

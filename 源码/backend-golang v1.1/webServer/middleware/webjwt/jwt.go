@@ -1,5 +1,3 @@
-//jwt应该好了，但是还没有测试
-
 package webjwt
 
 import (

@@ -8,28 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 用于连接的中间件
-// func CorsMiddleware() gin.HandlerFunc {
-// 	return func(ctx *gin.Context) {
-// 		ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-// 		ctx.Writer.Header().Set("Access-Control-Max-Age", "86400")
-// 		ctx.Writer.Header().Set("Access-Control-Allow-Methods", "*")
-// 		ctx.Writer.Header().Set("Access-Control-Allow-Headers", "*")
-// 		ctx.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-// 		// //放行所有OPTIONS方法
-// 		// if method == "OPTIONS" {
-// 		// 	c.JSON(http.StatusOK, "Options Request!")
-// 		// }
-// 		// // 处理请求
-// 		// c.Next() //  处理请求
-// 		if ctx.Request.Method == http.MethodOptions {
-// 			ctx.AbortWithStatus(200)
-// 		} else {
-// 			ctx.Next()
-// 		}
-// 	}
-// }
-
 // 用于跨区域连接的中间件
 func CorsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -61,7 +39,7 @@ func CorsMiddleware() gin.HandlerFunc {
 			c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,FooBar")
 			// 缓存请求信息 单位为秒
 			c.Header("Access-Control-Max-Age", "172800")
-			// 跨域请求是否需要带cookie信息 默认设置为true
+			// 跨域请求是否需要带cookie信息
 			c.Header("Access-Control-Allow-Credentials", "false")
 			// 设置返回格式是json
 			c.Set("content-type", "application/json")

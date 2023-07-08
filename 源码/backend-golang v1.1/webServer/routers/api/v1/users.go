@@ -90,10 +90,6 @@ func ModifyUserInfo(c *gin.Context) {
 	c.SaveUploadedFile(file, dst) // 图片
 	info.Infos.Portrait = name    // 将图片目录保存在数据库
 
-	// for key := range c.Request.MultipartForm.Value {
-	// 	print("Form Field Name: ", key, "\n")
-	// }
-
 	success := models.ModifyInfo(info.Infos, userID, true)
 	if !success {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -177,15 +173,3 @@ func ChangePassword(c *gin.Context) {
 		})
 	}
 }
-
-//增加了函数ChangePassword，删除了修改个人信息中的密码（两处）
-// Path: routers\api\v1\users.go
-
-//删除了ModifyInfo中的password（四处）
-// Path: models\user.go
-
-//增加了函数ModifyPassword
-// Path: models\user.go
-
-//增加了路由/password
-// Path: routers/router.go

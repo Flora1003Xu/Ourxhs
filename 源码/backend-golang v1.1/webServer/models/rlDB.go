@@ -22,10 +22,6 @@ func IsTelephoneExists(PhoneNumber string) (int, bool) { // 查找手机号是�
 	sqlStr := `select userAccount
 	from userinfo
 	where phoneNumber = ?`
-	//下面这个只是测试用的
-	// sqlStr := `select uA
-	// from userinfo
-	// where phoneNumber = ?`
 	err := db.QueryRow(sqlStr, PhoneNumber).Scan(&userID)
 	fmt.Println("查找手机号错误：", err)
 	return userID, err == nil

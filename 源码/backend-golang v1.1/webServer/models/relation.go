@@ -1,5 +1,7 @@
 package models
 
+//点赞、收藏、关注中与数据库相关的操作
+
 import (
 	"fmt"
 )
