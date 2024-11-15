@@ -4,11 +4,11 @@
 
 This project is a social networking website to cover the gap of functions inequality between mobile apps and websites.
 
-- back-end code in code/backend-golang v1.1
+- back-end code in Code/backend
 
-- front-end code in Code/frontend-vue2
+- front-end code in Code/frontend
 
-- database in Database
+- database in directory/database
 
 ## Instruction:
 - front-end: run "npm run serve" in /src (run on port 8080)
