@@ -1,5 +1,5 @@
 # DUISAN - "Software Engineering Training: Intermediate" coursework
-![](https://img.shields.io/badge/Star-8-yellow) ![](https://img.shields.io/badge/Vue-2-green) ![](https://img.shields.io/badge/ElementUI-2.15.13-orange) 
+![](https://img.shields.io/badge/Star-3-yellow) ![](https://img.shields.io/badge/Vue-2-red) ![](https://img.shields.io/badge/ElementUI-2.15.13-orange) 
 ![](https://img.shields.io/badge/Golang-1.1-blue) ![](https://img.shields.io/badge/MySQL-green)
 
 This project is a social networking website to cover the gap of functions inequality between mobile apps and websites.
@@ -8,7 +8,7 @@ This project is a social networking website to cover the gap of functions inequa
 
 - front-end code in Code/frontend-vue2
 
-- database in directory/database
+- database in Database
 
 ## Instruction:
 - front-end: run "npm run serve" in /src (run on port 8080)
