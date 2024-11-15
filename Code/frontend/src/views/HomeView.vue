@@ -2,24 +2,29 @@
   <div id="home">
     <!--放小红书logo-->
     <el-container>
-      <el-aside style="width:180px;">
+      <el-aside style="width: 180px">
         <!-- 设置当前菜单状态跟路由保持一致 -->
         <el-menu :default-active="$route.path" :text-clor="color">
-          <el-menu-item :class="index == number ? 'btn1' : 'btn'" @click="tab(index)" v-for="(item, index) in dataList"
-            :key="index" style="text-align:center">{{ item.option }}
+          <el-menu-item
+            :class="index == number ? 'btn1' : 'btn'"
+            @click="tab(index)"
+            v-for="(item, index) in dataList"
+            :key="index"
+            style="text-align: center"
+            >{{ item.option }}
           </el-menu-item>
         </el-menu>
       </el-aside>
 
       <el-container>
         <el-header>
-
           <div>
             <!--elementui有24分栏，span等于几就占据了几分栏，offset为偏移量，el-col里面得有div分隔才生效-->
             <el-row>
-
               <el-col :span="2" :offset="0" class="left">
-                <div><img src="./1.png" width="120" height="40" alt="小红书" /></div>
+                <div>
+                  <img src="./1.png" width="120" height="40" alt="小红书" />
+                </div>
               </el-col>
 
               <!--设置搜索栏,组件插入，减少本页代码量-->
@@ -30,31 +35,70 @@
               </el-col>
 
               <el-col :span="3" :offset="1" class="left">
-                <el-button round icon="el-icon-s-home" size="medium" @click="finded" :plain="find" type="danger"> 发现
+                <el-button
+                  round
+                  icon="el-icon-s-home"
+                  size="medium"
+                  @click="finded"
+                  :plain="find"
+                  type="danger"
+                >
+                  发现
                 </el-button>
               </el-col>
 
               <el-col :span="3" :offset="0" class="left">
-                <el-button round icon="el-icon-circle-plus-outline" size="medium" @click="post" :plain="posted"
-                  type="danger"> 发布 </el-button>
+                <el-button
+                  round
+                  icon="el-icon-circle-plus-outline"
+                  size="medium"
+                  @click="post"
+                  :plain="posted"
+                  type="danger"
+                >
+                  发布
+                </el-button>
               </el-col>
 
               <el-col :span="3" :offset="0" class="left">
-                <el-button round icon="el-icon-tableware" size="medium" @click="mine" :plain="my" type="danger" refs="my">
-                  我的 </el-button>
+                <el-button
+                  round
+                  icon="el-icon-tableware"
+                  size="medium"
+                  @click="mine"
+                  :plain="my"
+                  type="danger"
+                  refs="my"
+                >
+                  我的
+                </el-button>
               </el-col>
 
               <!-- 弹窗 -->
               <el-col :span="3" :offset="0" class="left">
                 <!-- 点击button进入外层 -->
                 <div id="log">
-                  <el-button size="medium" @click="loginVisible = true" :plain="my" type="danger"> 登录 </el-button>
+                  <el-button
+                    size="medium"
+                    @click="loginVisible = true"
+                    :plain="my"
+                    type="danger"
+                  >
+                    登录
+                  </el-button>
                 </div>
                 <!-- 这里是登录后换成头像 -->
-                <el-avatar v-if="head_visible" :src="require('../assets/' + portrait)" :size="50"></el-avatar>
-                <loginDialog :Visible="loginVisible" @change="handleChange($event)" @updateVisible="updateVisible" />
+                <el-avatar
+                  v-if="head_visible"
+                  :src="require('../assets/' + portrait)"
+                  :size="50"
+                ></el-avatar>
+                <loginDialog
+                  :Visible="loginVisible"
+                  @change="handleChange($event)"
+                  @updateVisible="updateVisible"
+                />
               </el-col>
-
             </el-row>
           </div>
         </el-header>
@@ -63,17 +107,27 @@
           <!-- 11个div可以进行切换，number=0是默认第一个div -->
 
           <div v-show="number == 0">
-
             <!-- 下面的模块是走马灯 -->
             <div v-if="value_show">
-              <el-carousel :interval="4000" type="card" height="300px" :autoplay="true">
+              <el-carousel
+                :interval="4000"
+                type="card"
+                height="300px"
+                :autoplay="true"
+              >
                 <el-carousel-item v-for="item in imgList" :key="item.id">
                   <div class="pic_item">
                     <div @click="zoumadeng(item.id)">
-                      <img class="image" :src="require('../assets/' + item.cover)" />
+                      <img
+                        class="image"
+                        :src="require('../assets/' + item.cover)"
+                      />
                     </div>
                     <!-- 显示走马灯详情 -->
-                    <DetailsCom :dailogshow="DetaildialogVisible" ref="children" />
+                    <DetailsCom
+                      :dailogshow="DetaildialogVisible"
+                      ref="children"
+                    />
                     <h3>{{ item.title }}</h3>
                   </div>
                 </el-carousel-item>
@@ -85,12 +139,11 @@
             <div style="display: flex" class="average_container">
               <div v-for="(column, index) in columns[0]" :key="index">
                 <div v-for="image in column" :key="image.noteId">
-                  <noteCard :attrs="image" ></noteCard>
+                  <noteCard :attrs="image"></noteCard>
                   <!-- <img :src="image.url" class="image"> -->
                 </div>
               </div>
             </div>
-
           </div>
 
           <!-- 我的关注 -->
@@ -187,23 +240,21 @@
               </div>
             </div>
           </div>
-
         </el-main>
-
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script>
-import loginDialog from "../components/loginDialog.vue"
+import loginDialog from "../components/loginDialog.vue";
 import axios from "axios";
-import SearchBox from '@/components/SearchBox.vue'
-import noteCard from '@/components/NoteCard.vue'
-import DetailsCom from '@/components/DetailsCom.vue'
-import GlobalToken from '@/components/GlobalToken.vue'
+import SearchBox from "@/components/SearchBox.vue";
+import noteCard from "@/components/NoteCard.vue";
+import DetailsCom from "@/components/DetailsCom.vue";
+import GlobalToken from "@/components/GlobalToken.vue";
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
     SearchBox,
     noteCard,
@@ -212,7 +263,7 @@ export default {
   },
   data() {
     return {
-      number: 0,//设置菜单的默认选中值
+      number: 0, //设置菜单的默认选中值
       find: false,
       posted: true,
       my: true,
@@ -229,17 +280,17 @@ export default {
       index_now: 0,
       value_show: true,
       dataList: [
-        { option: '推荐' },
-        { option: '我的关注' },
-        { option: '美食' },
-        { option: '彩妆' },
-        { option: '穿搭' },
-        { option: '影视' },
-        { option: '情感' },
-        { option: '职场' },
-        { option: '家居' },
-        { option: '游戏' },
-        { option: '旅行' },
+        { option: "推荐" },
+        { option: "我的关注" },
+        { option: "美食" },
+        { option: "彩妆" },
+        { option: "穿搭" },
+        { option: "影视" },
+        { option: "情感" },
+        { option: "职场" },
+        { option: "家居" },
+        { option: "游戏" },
+        { option: "旅行" },
       ],
       //走马灯的
       list: [],
@@ -248,39 +299,54 @@ export default {
       color: "black",
       //图片和列,note和columns的个数相对应
       note: [[], [], [], []],
-      columns: [[[], [], []], [[], [], []], [[], [], []], [[], [], []]],
+      columns: [
+        [[], [], []],
+        [[], [], []],
+        [[], [], []],
+        [[], [], []],
+      ],
     };
-
   },
 
   methods: {
     zoumadeng(index) {
-      this.DetaildialogVisible = true
-      this.$refs.children[0].setvisvile(this.DetaildialogVisible, this.imgList[index].noteId, this.imgList[index].creatorId, this.imgList[index].creatorName, this.imgList[index].portrait);//改成setvalue
+      this.DetaildialogVisible = true;
+      this.$refs.children[0].setvisvile(
+        this.DetaildialogVisible,
+        this.imgList[index].noteId,
+        this.imgList[index].creatorId,
+        this.imgList[index].creatorName,
+        this.imgList[index].portrait
+      ); //改成setvalue
     },
     updateVisible() {
-      this.loginVisible = !this.loginVisible
+      this.loginVisible = !this.loginVisible;
     },
     // 登录后更新个人信息
     async handleChange(newuserId) {
       GlobalToken.userid = newuserId;
-      this.userId=GlobalToken.userid
+      this.userId = GlobalToken.userid;
       axios({
-        method: 'get',
-        url: 'http://localhost:8081/' + this.userId+'/' + this.userId +'/PersonalView',
+        method: "get",
+        url:
+          "http://localhost:8081/" +
+          this.userId +
+          "/" +
+          this.userId +
+          "/PersonalView",
         headers: {
-          'Content-Type': false,
-          'Authorization': GlobalToken.Token,
+          "Content-Type": false,
+          Authorization: GlobalToken.Token,
         },
-      }).then(response => {
-        GlobalToken.portrait= response.data.data.userInfo.portrait;
+      }).then((response) => {
+        GlobalToken.portrait = response.data.data.userInfo.portrait;
         GlobalToken.username = response.data.data.userInfo.userName;
-        this.loginVisible = false;//
-        var el = document.getElementById('log');
+        this.loginVisible = false; //
+        var el = document.getElementById("log");
         el.remove();
-      this.portrait=GlobalToken.portrait
-      this.head_visible = true;
-      })
+        this.portrait = GlobalToken.portrait;
+        this.head_visible = true;
+      });
     },
     //用于防止图片叠加
     delBlock(index) {
@@ -292,7 +358,7 @@ export default {
     //下面是走马灯图片自适应的第一个函数，通过图片宽度计算高度
     setSize: function () {
       // 通过浏览器宽度(图片宽度)计算高度
-      this.bannerHeight = 400 / 1920 * this.screenWidth;
+      this.bannerHeight = (400 / 1920) * this.screenWidth;
     },
     //走马灯点击跳转的事件
     //tab点击到类别就刷新
@@ -309,147 +375,158 @@ export default {
       if (index == 1) {
         //我的关注的请求接口
         axios({
-          method: 'get',
-          url: 'http://localhost:8081/' + this.userId + '/follow/notes',
+          method: "get",
+          url: "http://localhost:8081/" + this.userId + "/follow/notes",
           headers: {
-            'Content-Type': false,
-            'Authorization': GlobalToken.Token,
+            "Content-Type": false,
+            Authorization: GlobalToken.Token,
           },
-        }).then(res => {
-          this.note[1] = res.data.data.notes;
-          this.splitImagesIntoColumns(1)
         })
-          .catch(error => {
-            console.log(error)
+          .then((res) => {
+            this.note[1] = res.data.data.notes;
+            this.splitImagesIntoColumns(1);
           })
+          .catch((error) => {
+            console.log(error);
+          });
       }
 
       if (index == 2) {
-        this.classify('美食');
+        this.classify("美食");
       }
       if (index == 3) {
-        this.classify('彩妆');
+        this.classify("彩妆");
       }
       if (index == 4) {
-        this.classify('穿搭');
+        this.classify("穿搭");
       }
       if (index == 5) {
-        this.classify('影视');
+        this.classify("影视");
       }
       if (index == 6) {
-        this.classify('情感');
+        this.classify("情感");
       }
       if (index == 7) {
-        this.classify('职场');
+        this.classify("职场");
       }
       if (index == 8) {
-        this.classify('家居');
+        this.classify("家居");
       }
       if (index == 9) {
-        this.classify('游戏');
+        this.classify("游戏");
       }
       if (index == 10) {
-        this.classify('旅行');
+        this.classify("旅行");
       }
     },
 
     // 即可实现点击按钮的跳转，对应路由里面的path
     finded() {
-      this.find = false//背景为透明色
-      this.posted = true
-      this.my = true
+      this.find = false; //背景为透明色
+      this.posted = true;
+      this.my = true;
     },
     post() {
-      if (GlobalToken.Token != '') {
-        this.find = true//背景为透明色
-        this.posted = false
-        this.my = true
+      if (GlobalToken.Token != "") {
+        this.find = true; //背景为透明色
+        this.posted = false;
+        this.my = true;
         //this.$router.push('/post');//可实现跳转页面
-        this.$router.push({ path: '/post?index=' + GlobalToken.userid+ '&name=' + GlobalToken.username + '&head=' + GlobalToken.portrait });
-      }
-      else{
-        this.$message.error("请先登录！")
+        this.$router.push({
+          path:
+            "/post?index=" +
+            GlobalToken.userid +
+            "&name=" +
+            GlobalToken.username +
+            "&head=" +
+            GlobalToken.portrait,
+        });
+      } else {
+        this.$message.error("请先登录！");
       }
     },
     // 跳转到个人主页
     mine() {
-      if (GlobalToken.Token != '') {
-      this.find = true
-      this.posted = true
-      this.my = false
-      //this.$router.push('/person');
-      this.$router.push({ path: '/person?index=' + GlobalToken.userid });}
-      else{
-        this.$message.error("请先登录！")
+      if (GlobalToken.Token != "") {
+        this.find = true;
+        this.posted = true;
+        this.my = false;
+        //this.$router.push('/person');
+        this.$router.push({ path: "/person?index=" + GlobalToken.userid });
+      } else {
+        this.$message.error("请先登录！");
       }
     },
 
     //分类的请求
     classify(cla) {
-      axios.get('http://localhost:8081/search/' + cla)
-        .then(res => {
-          if (cla == '美食') {
+      axios
+        .get("http://localhost:8081/search/" + cla)
+        .then((res) => {
+          if (cla == "美食") {
             this.note[2] = res.data.data.notes;
-            this.splitImagesIntoColumns(2)
+            this.splitImagesIntoColumns(2);
           }
-          if (cla == '彩妆') {
+          if (cla == "彩妆") {
             this.note[3] = res.data.data.notes;
-            this.splitImagesIntoColumns(3)
+            this.splitImagesIntoColumns(3);
           }
-          if (cla == '穿搭') {
+          if (cla == "穿搭") {
             this.note[4] = res.data.data.notes;
-            this.splitImagesIntoColumns(4)
+            this.splitImagesIntoColumns(4);
           }
-          if (cla == '影视') {
+          if (cla == "影视") {
             this.note[5] = res.data.data.notes;
-            this.splitImagesIntoColumns(5)
+            this.splitImagesIntoColumns(5);
           }
-          if (cla == '情感') {
+          if (cla == "情感") {
             this.note[6] = res.data.data.notes;
-            this.splitImagesIntoColumns(6)
+            this.splitImagesIntoColumns(6);
           }
-          if (cla == '职场') {
+          if (cla == "职场") {
             this.note[7] = res.data.data.notes;
-            this.splitImagesIntoColumns(7)
+            this.splitImagesIntoColumns(7);
           }
-          if (cla == '家居') {
+          if (cla == "家居") {
             this.note[8] = res.data.data.notes;
-            this.splitImagesIntoColumns(8)
+            this.splitImagesIntoColumns(8);
           }
-          if (cla == '游戏') {
+          if (cla == "游戏") {
             this.note[9] = res.data.data.notes;
-            this.splitImagesIntoColumns(9)
+            this.splitImagesIntoColumns(9);
           }
-          if (cla == '旅行') {
+          if (cla == "旅行") {
             this.note[10] = res.data.data.notes;
-            this.splitImagesIntoColumns(10)
+            this.splitImagesIntoColumns(10);
           }
         })
-        .catch(error => {
-          console.log(error)
-        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     //images先定义为向本地请求的照片的名称，即阿拉伯数字1-10
     fetchImages() {
       //向后端发送 GET 请求
-      axios.get('http://localhost:8081/explore')
-        .then(res => {
+      axios
+        .get("http://localhost:8081/explore")
+        .then((res) => {
           this.note[0] = res.data.data.notes;
-          this.splitImagesIntoColumns(0)
+          this.splitImagesIntoColumns(0);
         })
-        .catch(error => {
-          console.log(error)
-        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     //note到时候变成从请求端去获取
     splitImagesIntoColumns(index) {
       let columnCount = 3;
       let notesPerColumn = Math.ceil(this.note[index].length / columnCount);
-      let pre = notesPerColumn
+      let pre = notesPerColumn;
       for (let i = 0; i < columnCount; i++) {
-        if (i == 2) notesPerColumn = this.note[index].length - notesPerColumn * 2;
+        if (i == 2)
+          notesPerColumn = this.note[index].length - notesPerColumn * 2;
         for (let j = 0; j < notesPerColumn; j++) {
           let inde = i * notesPerColumn + j;
           if (i == 2) inde = i * pre + j;
@@ -464,23 +541,25 @@ export default {
     //搜索框更新页面
     handleSearch(result) {
       // 接收子组件传递过来的搜索结果，刷新推荐页面的部分
-      if (this.index_now == 0) { this.value_show = false }
+      if (this.index_now == 0) {
+        this.value_show = false;
+      }
       this.delBlock(this.index_now);
       this.addBlock(this.index_now);
       this.note[this.index_now] = [];
       this.note[this.index_now] = result;
       this.splitImagesIntoColumns(this.index_now);
-    }
+    },
   },
   watch: {
     $route() {
-      if (this.$route.params.refresh==true) { 
+      if (this.$route.params.refresh == true) {
         this.delBlock(0);
         this.addBlock(0);
         this.fetchImages();
         // this.splitImagesIntoColumns(0);
       }
-    }
+    },
   },
   //这个是走马灯的第二个图片自适应的函数
   mounted() {
@@ -491,33 +570,31 @@ export default {
     window.onresize = () => {
       this.screenWidth = window.innerWidth;
       this.setSize();
-
-    }
-
+    };
   },
 
   //函数里面的会先执行！在加载页面的时候，
   created: function () {
     // 一加载页面就请求一下走马灯
     //走马灯请求接口
-    axios.get("http://localhost:8081/explore/tops")
-      .then(res => {
+    axios
+      .get("http://localhost:8081/explore/tops")
+      .then((res) => {
         this.list = res.data.data;
         for (let i = 0; i < 4; i++) {
           const yuansu = this.list[i];
-          this.$set(yuansu, 'id', i);
+          this.$set(yuansu, "id", i);
           this.imgList.push(yuansu);
         }
-
       })
-      .catch(error => {
-        console.log(error)
-      })
+      .catch((error) => {
+        console.log(error);
+      });
     //首次加载时去请求所有的笔记
     this.fetchImages();
     this.splitImagesIntoColumns(0);
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -549,7 +626,6 @@ export default {
   overflow-y: auto;
   /* 当内容过多时y轴出现滚动条 */
   background-color: #def3f927;
-
 }
 
 .el-main {
@@ -565,7 +641,6 @@ export default {
   /* background-color: red; */
 }
 
-
 /* 走马灯的style设置 */
 .el-carousel__item h3 {
   color: #fef6f6f5;
@@ -579,7 +654,7 @@ export default {
   background-color: #489ff7;
 }
 
-.el-carousel__item:nth-child(2n+1) {
+.el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
 
@@ -610,7 +685,7 @@ img {
 }
 
 /* 实现布局三列平分 */
-.average_container>div {
+.average_container > div {
   flex: 1;
 }
 
@@ -620,7 +695,8 @@ img {
   box-sizing: border-box;
   margin-top: 10px;
   margin-bottom: 10px;
-}</style>
+}
+</style>
 
 <style>
 /*选中时*/
